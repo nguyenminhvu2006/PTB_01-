@@ -1,0 +1,93 @@
+# PHẦN A — KIỂM TRA ĐỌC HIỂU (20 điểm)
+
+## Câu A1 (5đ) — HTTP & Browser
+*Nguồn tham chiếu: 01_introduction_html_universe.md (Mục 0: Opening Hook, Mục 2: Client-Server Architecture & Mục 3: Browser Rendering Pipeline)*
+
+**1. Các bước xảy ra khi nhập https://shopee.vn và nhấn Enter:**
+Dựa theo luồng hoạt động Client-Server, quá trình này diễn ra qua 5 bước chính như sau:
+
+* **Bước 1: DNS Lookup & Định tuyến:** Trình duyệt phân giải tên miền `shopee.vn` thành địa chỉ IP, sau đó request xuất phát từ máy tính, đi qua các tầng mạng (nhà mạng, cáp quang) để tìm đến máy chủ (Server) của Shopee.
+* **Bước 2: Gửi HTTP Request (Client to Server):** Trình duyệt (Client) đóng vai trò người hỏi, gửi một HTTP Request (sử dụng method GET) đến máy chủ Shopee để yêu cầu nội dung trang web.
+* **Bước 3: Nhận HTTP Response (Server to Client):** Máy chủ tìm kiếm dữ liệu, sau đó gửi trả lại một HTTP Response với Status Code (ví dụ: `200 OK`) kèm theo bộ ba file nền tảng: HTML, CSS và JavaScript.
+* **Bước 4: Parsing (Phân tích cú pháp):** Trình duyệt nhận file HTML và bắt đầu đọc từ trên xuống (Parse HTML) để dựng lên DOM Tree (bộ xương). Đồng thời, nó tải về và đọc các file CSS (Parse CSS) để tạo CSSOM Tree.
+* **Bước 5: Rendering (Dựng trang):** Trình duyệt thực thi JavaScript (Execute JS) nếu có. Cuối cùng, nó trải qua các bước Layout (tính toán vị trí) -> Paint (tô màu pixel) -> Composite để hiển thị giao diện hoàn chỉnh lên màn hình cho người dùng.
+
+**2. Tab Network trong Chrome DevTools:**
+
+Tab **Network** cho thấy toàn bộ lịch sử giao tiếp giữa Client và Server. Cụ thể, nó ghi lại mọi HTTP Request mà trình duyệt đã gửi đi để tải file (HTML, CSS, JS, ảnh...), kèm theo các thông tin chi tiết như: Status Code (200, 404...), Method (GET, POST...), dung lượng file và thời gian phản hồi của Server.
+
+**[Ảnh Screenshot tab Network]**
+*(Hình ảnh đính kèm bên dưới)*
+![Mô tả ảnh: Screenshot DevTools tab Network](network.png)
+
+**Ghi chú các điểm đã đánh dấu trên ảnh:**
+* **Status Code của request đầu tiên:** Nằm ở dòng trên cùng của danh sách tải (thường là request xin file HTML chính), có Status Code là `200` (OK).
+* **Tổng thời gian load trang:** Nằm ở thanh trạng thái dưới cùng (ví dụ: hiển thị dòng chữ `Load: ... ms` hoặc `Finish: ... s`).
+* **Một request trả về file CSS:** Nằm ở dòng yêu cầu có đuôi file là `.css` (ở cột Name) và cột Type hiển thị là `stylesheet`.
+
+## Câu A2 (5đ) — Semantic HTML
+*Nguồn tham chiếu: Chương 04 - PHẦN HIỂN THỊ (Mục 1: Why This Matters, Mục 2: Bản đồ <body>, Mục 3: Semantic Elements chi tiết & Mục 5: Real-world Layer)*
+
+**1. Tại sao trang web bị Google đánh giá SEO thấp?**
+Trang web này mắc lỗi "Div Soup" (chỉ sử dụng toàn thẻ `<div>` vô nghĩa). Theo tài liệu, khi bạn dùng Div Soup, "Google không phân biệt được gì". Các thẻ Semantic HTML ảnh hưởng trực tiếp đến SEO vì Google cần đọc các thẻ có ý nghĩa (như `<article>`, `<section>`, `<h1>–<h6>`) để hiểu cấu trúc nội dung của trang.
+
+**2. Liệt kê 4 lỗi semantic và cách sửa:**
+* **Lỗi 1:** Dùng `<div class="header">` cho phần đầu trang. Phải sửa thành `<header>`.
+* **Lỗi 2:** Dùng `<div class="menu">` cho điều hướng. Phải sửa thành `<nav>`.
+* **Lỗi 3:** Dùng `<div class="main">` và `<div class="product">`. Phải sửa thành `<main>` (chỉ dùng 1 lần cho nội dung chính) và `<article>` (cho nội dung độc lập của sản phẩm).
+* **Lỗi 4:** Dùng `<div class="title">` cho tên sản phẩm. Cần sửa thành thẻ tiêu đề như `<h1>` (giống như ví dụ trang sản phẩm Shopee trong tài liệu) để Google nhận diện được.
+* **Lỗi 5 (Bổ sung):** Thẻ `<img>` thiếu thuộc tính `alt`. Thuộc tính `alt` bắt buộc phải có và phải mô tả nội dung ảnh để chuẩn SEO và người khiếm thị có thể hiểu.
+
+**3. Đoạn code sửa lại chuẩn Semantic HTML:**
+
+```html
+<header>
+    <div class="logo">ShopTLU</div>
+    <nav class="menu">
+        <ul>
+            <li><a href="/">Trang chủ</a></li>
+            <li><a href="/products">Sản phẩm</a></li>
+        </ul>
+    </nav>
+</header>
+<main>
+    <article class="product">
+        <h1 class="title">iPhone 16 Pro</h1>
+        <p class="price">25.990.000đ</p>
+        <figure class="image">
+            <img src="iphone.jpg" alt="Điện thoại iPhone 16 Pro" loading="lazy">
+        </figure>
+    </article>
+</main>
+<footer>
+    &copy; 2026 ShopTLU
+</footer>
+```
+
+## Câu A3 (5đ) — Block vs Inline
+**Text Art:**
+
+```text
+[-------------------------- Hộp 1 --------------------------]
+[Text A] [Text B]
+[-------------------------- Hộp 2 --------------------------]
+[Text C] [**Text D**]
+[-------------------------- Hộp 3 --------------------------]
+```
+
+Trên trình duyệt, các phần tử sẽ được xếp chồng lên nhau và nối tiếp nhau theo cấu trúc sau (khung ngoặc vuông `[ ]` biểu diễn không gian mà phần tử chiếm dụng)
+
+## Câu A4 (5đ) — Table
+**Nguồn tham chiếu:** File `05_tables_hyperlinks.md` (Chương 05) - Phần 3: Core Technical Truth & Phần 5: Real-world Layer.
+
+**1. Sự khác nhau giữa `<thead>`, `<tbody>`, `<tfoot>`:**
+Theo Mục 3 của tài liệu, đây là các thẻ Semantic dùng để phân định rõ cấu trúc của một bảng dữ liệu (`<table>`), giúp trình duyệt, CSS và trình đọc màn hình xử lý tốt hơn:
+* **`<thead>` (Header section):** Dùng để chứa phần tiêu đề của bảng (thường chứa các thẻ `<th>` để in đậm tiêu đề cột).
+* **`<tbody>` (Data section):** Dùng để chứa toàn bộ nội dung/dữ liệu chính của bảng.
+* **`<tfoot>` (Footer section):** Dùng để chứa các hàng tổng kết, tính tổng ở cuối bảng. Lợi ích kỹ thuật là trình duyệt có thể render (hiển thị) phần `<tfoot>` ngay cả khi dữ liệu trong `<tbody>` quá dài và chưa tải xong.
+
+**2. Tại sao KHÔNG NÊN dùng table để tạo layout trang web?**
+Dựa vào Mục 1 và Mục 5 của tài liệu, sử dụng `<table>` để dàn bố cục (layout) là một "anti-pattern" (cách làm sai lầm) từ năm 2005. Dưới đây là 3 lý do chính:
+* **Mất khả năng tiếp cận (Accessibility):** Các trình đọc màn hình (dành cho người khiếm thị) được thiết kế để đọc cấu trúc `<table>` theo thứ tự hàng/cột dữ liệu. Nếu dùng table để làm layout, phần mềm sẽ đọc sai thứ tự logic của nội dung, gây nhầm lẫn lớn cho người dùng.
+* **Mã nguồn bị lạm dụng và phức tạp (Abuse of code):** Để tạo một layout đơn giản, người lập trình sẽ phải lồng ghép vô số các thẻ `<tr>`, `<td>` vào nhau một cách không cần thiết, làm mã nguồn trở nên rác, cồng kềnh và cực kỳ khó bảo trì sau này.
+* **Thiếu linh hoạt (So với công cụ hiện đại):** Table được thiết kế cứng nhắc cho dữ liệu dạng bảng. Để tạo bố cục trang (như layout 2 cột), việc sử dụng các công cụ hiện đại như CSS Grid hay Flexbox sẽ tối ưu, gọn gàng và dễ dàng Responsive (tương thích đa màn hình) hơn rất nhiều.
