@@ -170,3 +170,89 @@ Trang web sử dụng **`<input type="text">`** (đoạn mã: `type="text"`). Đ
 
 Trang web sử dụng <input type="text"> (hiển thị rõ qua đoạn mã <input id="skw" type="text"...>), giúp người dùng có thể gõ văn bản tự do để tìm kiếm thiết bị.
 ![Minh họa thẻ Form](anh3.png)
+
+# PHẦN C - SUY LUẬN
+## Câu C1 - Thiết kế cấu trúc
+<header> <nav> <ul> <li><a href="/">Trang chủ</a></li>
+            <li><a href="/products">Sản phẩm</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main> <nav aria-label="breadcrumb"> <ol> <li><a href="/">Trang chủ</a></li>
+            <li><a href="/dien-thoai">Điện thoại</a></li>
+            <li><a href="/iphone-16" aria-current="page">iPhone 16</a></li>
+        </ol>
+    </nav>
+
+    <article> <section> <figure> <img src="main.jpg" alt="Ảnh chính iPhone 16">
+            </figure>
+            <ul> <li><img src="thumb1.jpg" alt="Góc chụp 1"></li>
+                <li><img src="thumb2.jpg" alt="Góc chụp 2"></li>
+                <li><img src="thumb3.jpg" alt="Góc chụp 3"></li>
+                <li><img src="thumb4.jpg" alt="Góc chụp 4"></li>
+            </ul>
+        </section>
+
+        <section> <header> <h1>iPhone 16 Pro Max 256GB</h1> </header>
+            
+            <div class="rating"> <span>⭐⭐⭐⭐⭐</span> 
+            </div>
+            
+            <p class="price">25.990.000đ</p> <div class="description"> <p>Mô tả chi tiết về tính năng và thiết kế của sản phẩm...</p> </div>
+        </section>
+
+    </article>
+
+    <section> <h2>Thông số kỹ thuật</h2> <table> <tbody> <tr> <th scope="row">Màn hình</th> <td>6.7 inch, Super Retina XDR</td> </tr>
+                <tr>
+                    <th scope="row">Chip</th>
+                    <td>Apple A18 Pro</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section> <h2>Đánh giá từ khách hàng</h2>
+        
+        <article> <header>
+                <h3>Nguyễn Văn A</h3> </header>
+            <p>Sản phẩm dùng rất mượt, camera chụp đẹp!</p>
+        </article>
+        
+        <article>
+            <header>
+                <h3>Trần Thị B</h3>
+            </header>
+            <p>Giao hàng nhanh, đóng gói cẩn thận.</p>
+        </article>
+    </section>
+
+</main>
+
+<aside> <h2>Sản phẩm tương tự</h2>
+    <ul> <li>
+            <article> <img src="iphone-15.jpg" alt="iPhone 15">
+                <h3>iPhone 15 Pro Max</h3>
+                <p>23.000.000đ</p>
+            </article>
+        </li>
+    </ul>
+</aside>
+
+<footer> <p>&copy; 2026 ShopTLU. All rights reserved.</p>
+</footer>
+---
+
+## Câu C2 — So sánh & Tranh luận
+**Phản biện quan điểm: "Dùng `<div>` cho mọi thứ rồi thêm class là được"**
+
+Quan điểm "chỉ dùng thẻ `<div>` kết hợp class" (hay còn gọi là hiện tượng Div Soup) có thể giúp lập trình viên code nhanh hơn trong giai đoạn đầu, nhưng lại tạo ra một "khoản nợ kỹ thuật" khổng lồ. Semantic HTML không phải là lý thuyết suông mà là tiêu chuẩn bắt buộc của Web hiện đại vì những lý do cốt lõi sau:
+
+**Thứ nhất, tối ưu hóa SEO:** Các bot của Google (Web Crawlers) hoàn toàn "mù" với CSS class. Một `<div class="main-content">` đối với bot chỉ là một chiếc hộp rỗng vô nghĩa. Ngược lại, khi sử dụng thẻ `<main>` hay `<article>`, bạn đang trực tiếp giúp máy tìm kiếm hiểu rõ đâu là nội dung trọng tâm cần lập chỉ mục, từ đó cải thiện đáng kể thứ hạng trang web.
+
+**Thứ hai, tính tiếp cận (Accessibility - a11y):** Các phần mềm đọc màn hình cho người khiếm thị phụ thuộc hoàn toàn vào thẻ HTML để điều hướng. Nếu bạn dùng `<button>`, trình duyệt tự động hiểu đó là nút bấm và cho phép kích hoạt bằng phím Enter/Space. Nếu cố chấp dùng `<div class="btn">`, bạn sẽ phải tốn thêm rất nhiều thời gian viết JavaScript và thuộc tính ARIA phức tạp chỉ để mô phỏng lại một tính năng vốn đã có sẵn.
+
+**Ví dụ thực tế chứng minh Semantic HTML giúp ích:** Hãy nhìn vào tính năng "Reader Mode" (Chế độ đọc) trên Safari hoặc Edge. Trình duyệt có thể tự động bóc tách nội dung chính của một bài báo và loại bỏ quảng cáo hoàn toàn nhờ việc bài viết đó được bọc trong thẻ `<article>`. Nếu trang web chỉ dùng `<div>`, trình duyệt sẽ bất lực trong việc trích xuất nội dung.
+
+**Trường hợp thẻ `<div>` vẫn phù hợp:** Mặc dù vậy, Semantic HTML không đào thải thẻ `<div>`. Thẻ `<div>` vẫn cực kỳ hoàn hảo khi dùng để **gom nhóm các phần tử thuần túy phục vụ cho mục đích giao diện (layout/styling)** mà không mang ý nghĩa ngữ nghĩa. Ví dụ: Dùng `<div class="grid-container">` để dàn bố cục các thẻ `<article>` thành dạng lưới, hoặc `<div class="overlay">` để tạo lớp nền tối mờ phía sau một popup.
