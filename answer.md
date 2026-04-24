@@ -134,4 +134,46 @@ Cách sửa: Sửa thành <p>Copyright 2026</p>.
 Lỗi 13: Dòng cuối cùng - Lỗi cú pháp (Syntax) - Thiếu thẻ đóng </html> cho toàn bộ tài liệu.
 Cách sửa: Thêm </html> vào dưới cùng, sau thẻ </body>.
 
+Bài B4: Phân tích trang web thật
+Trang web phân tích: thegioididong.com
 
+1. Phân tích tab Elements (Thẻ Semantic & Non-semantic)
+(Tham khảo ảnh đính kèm: anh1.png, anh2.png, anh3.png)
+
+3 thẻ semantic HTML5 mà trang web sử dụng:
+
+<header>: Nằm ở đầu trang, bọc toàn bộ khu vực điều hướng, tìm kiếm và banner đầu trang (Ghi nhận tại anh1.png).
+
+<h1>: Thẻ tiêu đề chính, nằm lồng bên trong khu vực header (có class sc-only) (Ghi nhận tại anh1.png).
+
+<form>: Nằm ở khu vực thanh tìm kiếm, bọc thẻ input để xử lý gửi từ khóa tìm kiếm đi (Ghi nhận tại anh3.png).
+
+2 thẻ trang web KHÔNG dùng đúng semantic (Anti-pattern):
+
+Dùng quá nhiều <div> lồng nhau (Div soup) chỉ để tạo lớp phủ (overlay) giao diện mà không mang ý nghĩa nội dung, ví dụ: <div class="header-overlay">, <div class="header-mask"> (Ghi nhận tại anh1.png).
+
+Dùng thẻ <div> để làm nút bấm: Cụ thể là thẻ <div class="btn-view-more is-desktop">. Đáng lẽ ra trang web nên sử dụng thẻ <button> để đúng chuẩn ngữ nghĩa cho chức năng "Xem thêm" (Ghi nhận tại anh2.png).
+
+2. Phân tích thẻ <table>
+(Tham khảo ảnh đính kèm: anh2.png)
+
+Table đó hiển thị nội dung gì?
+
+Dựa vào thanh đường dẫn (breadcrumb) ở góc dưới cùng màn hình DevTools chứa đoạn div#product-comparison-table, có thể khẳng định bảng này dùng để hiển thị bảng so sánh thông số giữa các sản phẩm.
+
+Có dùng <thead>, <tbody> không?
+
+Trong bức ảnh chụp, thẻ <table> hiện đang ở trạng thái thu gọn (hiển thị ...). Vì vậy, không thể nhìn trực tiếp code bên trong qua ảnh này. Tuy nhiên, theo cơ chế hiển thị của trình duyệt, nó sẽ luôn tự động tạo thẻ <tbody> bọc dữ liệu bên trong.
+
+3. Phân tích thẻ <form> (Ô tìm kiếm)
+(Tham khảo ảnh đính kèm: anh3.png)
+
+Form đó có action và method gì?
+
+action: "/tim-kiem" (Điều hướng người dùng đến trang xử lý kết quả tìm kiếm).
+
+method: Thẻ <form> trong ảnh không khai báo tường minh thuộc tính method. Do đó, trình duyệt sẽ tự động áp dụng phương thức mặc định là GET.
+
+Input types nào được dùng?
+
+Trang web sử dụng <input type="text"> (hiển thị rõ qua đoạn mã <input id="skw" type="text"...>), giúp người dùng có thể gõ văn bản tự do để tìm kiếm thiết bị.
