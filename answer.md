@@ -64,115 +64,109 @@ Trang web này mắc lỗi "Div Soup" (chỉ sử dụng toàn thẻ `<div>` vô
 <footer>
     &copy; 2026 ShopTLU
 </footer>
+```
 
-Câu A3 — Block vs Inline
-Text Art:
+---
 
-Plaintext
+## Câu A3 — Block vs Inline
+**Text Art minh họa:**
+
+```text
 [-------------------------- Hộp 1 --------------------------]
 [Text A] [Text B]
 [-------------------------- Hộp 2 --------------------------]
 [Text C] [**Text D**]
 [-------------------------- Hộp 3 --------------------------]
+```
 Trên trình duyệt, các phần tử sẽ được xếp chồng lên nhau và nối tiếp nhau theo cấu trúc sau (khung ngoặc vuông [ ] biểu diễn không gian mà phần tử chiếm dụng)
+---
+---
 
-Câu A4 — Table
-Nguồn tham chiếu: File 05_tables_hyperlinks.md (Chương 05) - Phần 3: Core Technical Truth & Phần 5: Real-world Layer.
+## Câu A4 — Table
+*Nguồn tham chiếu: File 05_tables_hyperlinks.md (Chương 05) - Phần 3: Core Technical Truth & Phần 5: Real-world Layer.*
 
-1. Sự khác nhau giữa <thead>, <tbody>, <tfoot>:
-Theo Mục 3 của tài liệu, đây là các thẻ Semantic dùng để phân định rõ cấu trúc của một bảng dữ liệu (<table>), giúp trình duyệt, CSS và trình đọc màn hình xử lý tốt hơn:
+**1. Sự khác nhau giữa `<thead>`, `<tbody>`, `<tfoot>`:**
+Theo tài liệu, đây là các thẻ Semantic dùng để phân định rõ cấu trúc của một bảng dữ liệu (`<table>`), giúp trình duyệt, CSS và trình đọc màn hình (cho người khiếm thị) xử lý tốt hơn:
+* **`<thead>` (Header section):** Dùng để chứa phần tiêu đề của bảng. Thông thường bên trong sẽ chứa các thẻ `<th>` để hiển thị tên các cột một cách nổi bật (in đậm và căn giữa).
+* **`<tbody>` (Data section):** Là "trái tim" của bảng, dùng để chứa toàn bộ nội dung hoặc các hàng dữ liệu chính. 
+* **`<tfoot>` (Footer section):** Dùng để chứa các hàng tổng kết, tính tổng hoặc thông tin chú thích ở cuối bảng. 
+* **Lợi ích kỹ thuật:** Khi dùng đúng 3 thẻ này, trình duyệt có khả năng hiển thị (render) phần đầu và phần cuối bảng trước ngay cả khi dữ liệu trong `<tbody>` đang tải (nếu bảng quá dài).
 
-<thead> (Header section): Dùng để chứa phần tiêu đề của bảng (thường chứa các thẻ <th> để in đậm tiêu đề cột).
+**2. Tại sao KHÔNG NÊN dùng table để tạo layout (bố cục) trang web?**
+Việc sử dụng `<table>` để chia khung trang web (như tạo cột sidebar, header) là một cách làm cũ (anti-pattern) và không còn phù hợp vì 3 lý do sau:
+* **Mất khả năng tiếp cận (Accessibility):** Phần mềm đọc màn hình sẽ đọc dữ liệu theo thứ tự hàng/cột. Nếu dùng table làm layout, nó sẽ đọc sai thứ tự logic của thông tin, gây khó khăn cho người khiếm thị.
+* **Mã nguồn cồng kềnh (Abuse of code):** Bạn sẽ phải lồng ghép vô số thẻ `<tr>`, `<td>` chỉ để dịch chuyển một cái ảnh hay một dòng chữ, khiến file HTML trở nên nặng nề và cực kỳ khó sửa lỗi sau này.
+* **Thiếu linh hoạt (Responsive kém):** Table rất "cứng nhắc". Việc làm cho một cái bảng co giãn mượt mà trên điện thoại di động là cực kỳ khó khăn so với việc sử dụng các công cụ hiện đại như **CSS Grid** hay **Flexbox**.
+---
 
-<tbody> (Data section): Dùng để chứa toàn bộ nội dung/dữ liệu chính của bảng.
+# PHẦN B — THỰC HÀNH CODE
 
-<tfoot> (Footer section): Dùng để chứa các hàng tổng kết, tính tổng ở cuối bảng. Lợi ích kỹ thuật là trình duyệt có thể render (hiển thị) phần <tfoot> ngay cả khi dữ liệu trong <tbody> quá dài và chưa tải xong.
+## Câu B3 — Debug HTML
+Dưới đây là danh sách các lỗi (Syntax và Semantic) được tìm thấy trong file mã nguồn và phương án sửa chữa:
 
-2. Tại sao KHÔNG NÊN dùng table để tạo layout trang web?
-Dựa vào Mục 1 và Mục 5 của tài liệu, sử dụng <table> để dàn bố cục (layout) là một "anti-pattern" (cách làm sai lầm) từ năm 2005. Dưới đây là 3 lý do chính:
+* **Lỗi 1: Dòng 1 (Syntax)** — Khai báo `<!DOCTYPE>` thiếu chữ `html`. 
+    * *Cách sửa:* Đổi thành `<!DOCTYPE html>`.
+* **Lỗi 2: Dòng 2 (Semantic)** — Thẻ `<html>` thiếu thuộc tính ngôn ngữ `lang`. 
+    * *Cách sửa:* Sửa thành `<html lang="vi">`.
+* **Lỗi 3: Dòng 4 (Syntax)** — Thẻ `<title>` chưa được đóng. 
+    * *Cách sửa:* Thêm thẻ đóng: `<title>Trang web</title>`.
+* **Lỗi 4: Dòng 5 (Syntax)** — Giá trị charset viết sai định dạng chuẩn. 
+    * *Cách sửa:* Đổi `"utf8"` thành `"utf-8"`.
+* **Lỗi 5: Dòng 8 (Syntax)** — Thẻ đóng `<h1>` bị sai cú pháp (thiếu dấu `/`). 
+    * *Cách sửa:* Đổi thành `</h1>`.
+* **Lỗi 6: Dòng 12 (Syntax)** — Thẻ đóng `<a>` bị viết nhầm thành thẻ mở. 
+    * *Cách sửa:* Đổi `<a>` ở cuối dòng thành `</a>`.
+* **Lỗi 7: Dòng 19 & 26 (Semantic)** — Vi phạm phân cấp heading (nhảy từ `<h1>` xuống `<h3>`). 
+    * *Cách sửa:* Đổi các thẻ `<h3>` thành `<h2>`.
+* **Lỗi 8: Dòng 20 (Syntax & Semantic)** — Thuộc tính `src` thiếu ngoặc kép và thiếu thuộc tính `alt` mô tả ảnh. 
+    * *Cách sửa:* Sửa thành `<img src="iphone.jpg" alt="Ảnh iPhone 16 Pro">`.
+* **Lỗi 9: Dòng 22 (Syntax)** — Lỗi lồng thẻ (Nesting error), đóng sai thứ tự `<b>` và `<p>`. 
+    * *Cách sửa:* Đổi thành `<b>25.990.000đ</b></p>`.
+* **Lỗi 10: Dòng 29 & 30 (Semantic)** — Dùng thẻ `<td>` cho tiêu đề cột thay vì thẻ chuyên dụng. 
+    * *Cách sửa:* Đổi các thẻ `<td>` ở hàng đầu tiên thành `<th>`.
+* **Lỗi 11: Dòng 40 (Semantic)** — Sử dụng quá một thẻ `<main>` trong một trang web. 
+    * *Cách sửa:* Đổi cặp thẻ `<main>` thứ hai (phần sidebar) thành thẻ `<aside>`.
+* **Lỗi 12: Dòng 45 (Syntax)** — Thẻ `<p>` trong khu vực footer chưa có thẻ đóng. 
+    * *Cách sửa:* Thêm thẻ đóng `</p>` vào cuối dòng.
+* **Lỗi 13: Dòng cuối cùng (Syntax)** — Thiếu thẻ đóng `</html>` cho toàn bộ tài liệu. 
+    * *Cách sửa:* Thêm `</html>` vào sau thẻ `</body>`.
+---
 
-Mất khả năng tiếp cận (Accessibility): Các trình đọc màn hình (dành cho người khiếm thị) được thiết kế để đọc cấu trúc <table> theo thứ tự hàng/cột dữ liệu. Nếu dùng table để làm layout, phần mềm sẽ đọc sai thứ tự logic của nội dung, gây nhầm lẫn lớn cho người dùng.
+## Bài B4 — Phân tích trang web thật
+**Trang web phân tích:** `thegioididong.com`
 
-Mã nguồn bị lạm dụng và phức tạp (Abuse of code): Để tạo một layout đơn giản, người lập trình sẽ phải lồng ghép vô số các thẻ <tr>, <td> vào nhau một cách không cần thiết, làm mã nguồn trở nên rác, cồng kềnh và cực kỳ khó bảo trì sau này.
+### 1. Phân tích tab Elements (Thẻ Semantic & Non-semantic)
 
-Thiếu linh hoạt (So với công cụ hiện đại): Table được thiết kế cứng nhắc cho dữ liệu dạng bảng. Để tạo bố cục trang (như layout 2 cột), việc sử dụng các công cụ hiện đại như CSS Grid hay Flexbox sẽ tối ưu, gọn gàng và dễ dàng Responsive (tương thích đa màn hình) hơn rất nhiều.
+**3 thẻ semantic HTML5 mà trang web sử dụng:**
+* `<header>`: Nằm ở đầu trang, bao bọc toàn bộ khu vực logo, tìm kiếm và các menu điều hướng chính. Giúp trình duyệt và máy tìm kiếm nhận diện được phần đầu của website (Ghi nhận tại `anh1.png`).
+* `<h1>`: Thẻ tiêu đề cấp 1, chứa nội dung quan trọng nhất của trang. Tại đây được ẩn đi bằng class `sc-only` nhưng vẫn tồn tại để hỗ trợ SEO (Ghi nhận tại `anh1.png`).
+* `<form>`: Sử dụng để bao bọc các thành phần nhập liệu của ô tìm kiếm, giúp xử lý việc gửi dữ liệu lên máy chủ (Ghi nhận tại `anh3.png`).
 
-PHẦN B — THỰC HÀNH CODE
-Câu B3 - Debug HTML
-Lỗi 1: Dòng 1 - Lỗi cú pháp (Syntax) - Khai báo DOCTYPE thiếu chữ html.
-Cách sửa: Đổi <!DOCTYPE> thành <!DOCTYPE html>.
+**2 thẻ trang web KHÔNG dùng đúng semantic (Anti-pattern):**
+* **Lạm dụng thẻ `<div>` (Div Soup):** Có quá nhiều thẻ `<div>` lồng nhau chỉ để làm lớp phủ hoặc hiệu ứng (như `header-overlay`, `header-mask`) mà không mang ý nghĩa nội dung thực tế (Ghi nhận tại `anh1.png`).
+* **Dùng `<div>` làm nút bấm:** Trang web sử dụng `<div class="btn-view-more">` để làm chức năng "Xem thêm". Theo chuẩn semantic, chức năng này nên sử dụng thẻ `<button>` để hỗ trợ tốt hơn cho các thiết bị điều khiển bằng bàn phím hoặc trình đọc màn hình (Ghi nhận tại `anh2.png`).
 
-Lỗi 2: Dòng 2 - Lỗi ngữ nghĩa (Semantic) - Thẻ <html> thiếu thuộc tính ngôn ngữ lang, điều này không tốt cho SEO và trình đọc màn hình.
-Cách sửa: Sửa thành <html lang="vi"> (hoặc en).
+![Minh họa Semantic và Non-semantic](anh1.png)
 
-Lỗi 3: Dòng 4 - Lỗi cú pháp (Syntax) - Thẻ <title> chưa được đóng.
-Cách sửa: Thêm thẻ đóng: <title>Trang web</title>.
+---
 
-Lỗi 4: Dòng 5 - Lỗi cú pháp (Syntax) - Giá trị charset viết sai định dạng chuẩn.
-Cách sửa: Đổi "utf8" thành "utf-8".
+### 2. Phân tích thẻ `<table>`
 
-Lỗi 5: Dòng 8 - Lỗi cú pháp (Syntax) - Thẻ đóng <h1> bị sai cú pháp (thiếu dấu gạch chéo /).
-Cách sửa: Đổi <h1>Welcome to ShopTLU<h1> thành <h1>Welcome to ShopTLU</h1>.
+* **Table đó hiển thị nội dung gì?**
+Dựa vào mã nguồn và ID của thẻ bao bọc (`div#product-comparison-table`), bảng này hiển thị **nội dung so sánh cấu hình và thông số kỹ thuật** giữa các sản phẩm điện thoại/thiết bị với nhau.
+* **Có dùng `<thead>`, `<tbody>` không?**
+Trong ảnh chụp, thẻ `<table>` đang được thu gọn. Tuy nhiên, theo quy tắc hiển thị của trình duyệt hiện đại, dữ liệu bên trong sẽ được tự động bao bọc bởi thẻ `<tbody>`. Với các bảng so sánh dạng cột đứng như trên trang web này, phần `<thead>` thường bị lược bỏ để tối ưu giao diện.
 
-Lỗi 6: Dòng 12 - Lỗi cú pháp (Syntax) - Thẻ đóng <a> bị sai cú pháp (viết thành thẻ mở).
-Cách sửa: Đổi <a> ở cuối thành </a>.
+![Minh họa thẻ Table](anh2.png)
+---
 
-Lỗi 7: Dòng 19 & 26 - Lỗi ngữ nghĩa (Semantic) - Nhảy cấp heading. Trang web đang từ <h1> nhảy thẳng xuống <h3> mà bỏ qua <h2>.
-Cách sửa: Đổi các thẻ <h3> thành <h2>.
+### 3. Phân tích thẻ `<form>` (Ô tìm kiếm)
 
-Lỗi 8: Dòng 20 - Lỗi cú pháp và ngữ nghĩa - Thuộc tính src không có ngoặc kép bọc giá trị và thiếu thuộc tính alt mô tả ảnh (bắt buộc trong chuẩn HTML5).
-Cách sửa: Đổi thành <img src="iphone.jpg" alt="Ảnh iPhone 16 Pro">.
+* **Form đó có `action` và `method` gì?**
+    * **`action`**: `"/tim-kiem"` (Dẫn người dùng đến trang xử lý kết quả tìm kiếm của hệ thống).
+    * **`method`**: Thẻ `<form>` trong ảnh không ghi rõ thuộc tính này. Do đó, trình duyệt sẽ tự động áp dụng phương thức mặc định là **`GET`**. Điều này giúp từ khóa tìm kiếm hiển thị trực tiếp trên thanh địa chỉ URL.
+* **Input types nào được dùng?**
+Trang web sử dụng **`<input type="text">`** (đoạn mã: `type="text"`). Đây là kiểu nhập liệu phổ biến nhất, cho phép người dùng gõ văn bản tự do để tìm kiếm tên sản phẩm.
 
-Lỗi 9: Dòng 22 - Lỗi lồng thẻ (Syntax - Nesting error) - Thẻ <p> và <b> đóng sai thứ tự (thẻ nào mở sau phải đóng trước).
-Cách sửa: Đổi <b>25.990.000đ</p></b> thành <b>25.990.000đ</b></p>.
-
-Lỗi 10: Dòng 29 & 30 - Lỗi ngữ nghĩa (Semantic) - Hàng đầu tiên của bảng là tiêu đề cột, nên dùng thẻ <th> thay vì <td> (dữ liệu thường).
-Cách sửa: Đổi <td>Tên</td> và <td>Giá</td> thành <th>Tên</th> và <th>Giá</th>.
-
-Lỗi 11: Dòng 40 - Lỗi ngữ nghĩa (Semantic) - Theo chuẩn HTML5, mỗi trang chỉ được có duy nhất một thẻ <main>. Đoạn này chứa nội dung sidebar nên dùng thẻ <aside>.
-Cách sửa: Đổi <main> và </main> thành <aside> và </aside>.
-
-Lỗi 12: Dòng 45 - Lỗi cú pháp (Syntax) - Thẻ <p> trong footer chưa có thẻ đóng.
-Cách sửa: Sửa thành <p>Copyright 2026</p>.
-
-Lỗi 13: Dòng cuối cùng - Lỗi cú pháp (Syntax) - Thiếu thẻ đóng </html> cho toàn bộ tài liệu.
-Cách sửa: Thêm </html> vào dưới cùng, sau thẻ </body>.
-
-Bài B4: Phân tích trang web thật
-Trang web phân tích: thegioididong.com
-
-1. Phân tích tab Elements (Thẻ Semantic & Non-semantic)
-
-
-3 thẻ semantic HTML5 mà trang web sử dụng:
-
-<header>: Nằm ở đầu trang, bọc toàn bộ khu vực điều hướng, tìm kiếm và banner đầu trang (Ghi nhận tại anh1.png).
-
-<h1>: Thẻ tiêu đề chính, nằm lồng bên trong khu vực header (có class sc-only) (Ghi nhận tại anh1.png).
-
-<form>: Nằm ở khu vực thanh tìm kiếm, bọc thẻ input để xử lý gửi từ khóa tìm kiếm đi (Ghi nhận tại anh3.png).
-
-2 thẻ trang web KHÔNG dùng đúng semantic (Anti-pattern):
-
-Dùng quá nhiều <div> lồng nhau (Div soup) chỉ để tạo lớp phủ (overlay) giao diện mà không mang ý nghĩa nội dung, ví dụ: <div class="header-overlay">, <div class="header-mask"> (Ghi nhận tại anh1.png).
-
-Dùng thẻ <div> để làm nút bấm: Cụ thể là thẻ <div class="btn-view-more is-desktop">. Đáng lẽ ra trang web nên sử dụng thẻ <button> để đúng chuẩn ngữ nghĩa cho chức năng "Xem thêm" (Ghi nhận tại anh2.png).
-
-2. Phân tích thẻ <table>
-(Tham khảo ảnh đính kèm: anh2.png)
-
-Table đó hiển thị nội dung gì?
-Dựa vào thanh đường dẫn (breadcrumb) ở góc dưới cùng màn hình DevTools chứa đoạn div#product-comparison-table, có thể khẳng định bảng này dùng để hiển thị bảng so sánh thông số giữa các sản phẩm.
-
-Có dùng <thead>, <tbody> không?
-Trong bức ảnh chụp, thẻ <table> hiện đang ở trạng thái thu gọn (hiển thị ...). Vì vậy, không thể nhìn trực tiếp code bên trong qua ảnh này. Tuy nhiên, theo cơ chế hiển thị của trình duyệt, nó sẽ luôn tự động tạo thẻ <tbody> bọc dữ liệu bên trong.
-
-3. Phân tích thẻ <form> (Ô tìm kiếm)
-(Tham khảo ảnh đính kèm: anh3.png)
-
-Form đó có action và method gì?
-action: "/tim-kiem" (Điều hướng người dùng đến trang xử lý kết quả tìm kiếm).
-method: Thẻ <form> trong ảnh không khai báo tường minh thuộc tính method. Do đó, trình duyệt sẽ tự động áp dụng phương thức mặc định là GET.
-
-Input types nào được dùng?
 Trang web sử dụng <input type="text"> (hiển thị rõ qua đoạn mã <input id="skw" type="text"...>), giúp người dùng có thể gõ văn bản tự do để tìm kiếm thiết bị.
+![Minh họa thẻ Form](anh3.png)
